@@ -1,0 +1,45 @@
+# Action 名
+name: 获取 jojodl 每日更新
+# 触发方式
+on:
+    # 允许手动触发
+    workflow_dispatch:
+    # 提交代码时触发
+    # push:
+    # 定时任务触发
+    schedule:
+        # 默认是UTC时间，中国是 UTC+8 时间 
+        # 每天 UTC+8 时间 23：55 执行
+        - cron: "55 15 * * *"
+jobs:
+    build:
+        # 指定运行环境，最新版Ubuntu：ubuntu-latest
+        runs-on: ubuntu-18.04
+        # Action的执行步骤
+        steps:
+            # 不明觉厉
+            - name: Checkout
+              uses: actions/checkout@v2
+            # name为步骤名
+            - name: "设置 python3.8 环境"
+              uses: actions/setup-python@v1
+              with:
+                python-version: 3.8
+            - name: "安装依赖包"
+            # run为要执行的命令
+              run: pip install -r ./requirements.txt
+            - name: "开始运行指定文件"
+              run: python3 程序文件/获取jojodl每日更新.py
+            # env是用来设置环境变量的
+              env:
+            # 设置一个环境变量，名为 MY_PARAM 值为secret里的MY_PARAM的内容
+                  MY_PARAM: ${{ secrets.MY_PARAM }}
+            - name: "上传执行结果"
+              run: |
+                # 获取当前时间 nowis=$(date "+%Y-%m-%d")
+                git config --global user.name "ZhReimu"
+                git config --global user.email "1725338233@qq.com"
+                cd 执行结果
+                git add .
+                git commit -m '上传执行结果'
+                git push -u origin main

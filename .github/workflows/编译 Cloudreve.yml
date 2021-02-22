@@ -1,0 +1,98 @@
+# Action 名
+name: 编译 Cloudreve
+# 触发方式
+on:
+    # 允许手动触发
+    workflow_dispatch:
+    # 提交代码时触发
+    # push:
+    # 定时任务触发
+    #schedule:
+        # 默认是UTC时间，中国是 UTC+8 时间 
+        # 每天 UTC+8 时间 23：55 执行
+        # - cron: "55 15 * * *"
+jobs:
+    build:
+        # 指定运行环境，最新版Ubuntu：ubuntu-latest
+        runs-on: ubuntu-18.04
+        # Action的执行步骤
+        steps:
+            - name: 设置 Go 环境 1.14
+              uses: actions/setup-go@v1
+              with:
+                go-version: 1.14
+              id: go
+              
+            - name: 设置 Node.js 环境 15.9.0
+              uses: actions/setup-node@v1
+              with:
+                node-version: 15.9.0
+            
+            - name: 克隆代码
+              run: |
+                git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git
+                echo 当前代码占用空间为
+                du -hs Cloudreve
+          
+            - name: 构建静态资源
+              env: 
+                CI: false
+              run: |
+                echo 进入项目主文件夹
+                cd Cloudreve
+                echo 进入前端子模块
+                cd assets
+                echo 安装依赖
+                yarn install
+                echo 开始构建
+                yarn run build
+                echo 当前代码占用空间为
+                du -hs .
+            
+            - name: 嵌入静态资源
+              
+              run: |
+                echo 回到项目主目录
+                cd ../
+                echo 安装 statik, 用于嵌入静态资源
+                go get github.com/rakyll/statik
+                export PATH="$PATH:go/bin"
+                ls
+                echo $PATH
+                echo 开始嵌入
+                ./go/bin/statik -src=assets/build/  -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f
+
+            - name: 开始编译
+              run: |
+                echo 设置编译 arm 程序
+                go env -w GO111MODULE=on
+                go env -w GOARCH=arm
+                go env -w GOOS=linux
+
+                echo 获得当前版本号
+                export COMMIT_SHA=$(git rev-parse --short HEAD)
+                export VERSION=$(git describe --tags)
+                echo 开始编译
+                go build -a -o my_cloudreve -ldflags="-s -w"
+                
+           
+
+            - name: 打包上传
+              run: | 
+                echo 当前代码占用空间为
+                du -hs .
+                cd ~
+                mkdir 执行结果
+                
+                #tar -zxcf Cloudreve.tar.gz Cloudreve
+                #tar czf - Cloudreve.tar.gz | split -b 100m - 执行结果/Cloudreve.tar.gz
+                
+                git config --global user.name "ZhReimu"
+                git config --global user.email "1725338233@qq.com"
+                cd 执行结果
+                ls
+                echo ""
+                git add .
+                git commit -m '上传执行结果'
+                git push -u origin main           
+            

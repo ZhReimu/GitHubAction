@@ -1,0 +1,33 @@
+name: 完美校园自动打卡
+
+#好吧，没仔细看文档，GitHubActions用不了，留作纪念了。
+# 触发方式
+on:
+    # 允许手动触发
+    workflow_dispatch:
+    # 定时任务触发
+    schedule:
+     #    默认是UTC时间，中国是 UTC+8 时间 
+     #    Cron语法：分（0-59） 时（0-23） 日（1-31） 月（1-12） 周（0-6），中间用空格隔开
+        - cron: "00 23 * * *"
+     #    中国时间早上7点执行
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: "安装依赖包"
+      run: |
+        pip3 install requests pycryptodome
+         
+    - name: "开始运行指定文件"
+      run: |
+       python3 程序文件/完美校园自动打卡/完美校园自动打卡.py <<EOF
+        ${{secrets.SCHOOL_USERNAME}}
+        ${{secrets.SCHOOL_PASSWORD}}
+        ${{secrets.SERVER_CHAIN_KEY}}
+        EOF
+        

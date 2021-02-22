@@ -1,0 +1,13 @@
+# Action 名
+name: WebHook
+# 触发方式
+on: repository_dispatch
+
+jobs:
+  run:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: 开始执行命令
+      run: |
+        echo Hello World!
