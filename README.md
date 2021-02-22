@@ -31,7 +31,7 @@ jobs:
         runs-on: ubuntu-18.04
         # Action的执行步骤
         steps:
-            # 不明觉厉
+            # 将本仓库下载到 runner 里
             - name: Checkout
               uses: actions/checkout@v2
             # name为步骤名
