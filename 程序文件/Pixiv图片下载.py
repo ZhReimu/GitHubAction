@@ -60,7 +60,7 @@ def download_img(url):
     filename = url[url.rindex('/')+1:]
     RESULT_FILE_NAME = RESULT_DIR+filename
     if os.path.exists(RESULT_FILE_NAME):
-      print('文件已存在，跳过下载！\n',filename)
+      print('文件已存在，跳过下载！',filename, '\n')
       return "Pass"
     print('开始下载',filename)
     with open(RESULT_FILE_NAME,'wb')as file:
