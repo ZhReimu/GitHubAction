@@ -20,14 +20,20 @@ jobs:
             # 不明觉厉
             - name: Checkout
               uses: actions/checkout@v2
+            
             # name为步骤名
             - name: "设置 python3.8 环境"
               uses: actions/setup-python@v1
               with:
                 python-version: 3.8
+            
             - name: "安装依赖包"
             # run为要执行的命令
               run: pip install -r ./requirements.txt
+            
+            - name: 设置交互式调试
+              uses: csexton/debugger-action@master
+              
             - name: "开始运行指定文件"
               run: python3 程序文件/Pixiv图片下载.py
               
