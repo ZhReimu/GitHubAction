@@ -41,5 +41,5 @@ jobs:
                 git config --global user.email "1725338233@qq.com"
                 cd 执行结果
                 git add .
-                git commit -m '上传执行结果'
+                git commit -m '保存 JOJODL 更新文件'
                 git push -u origin main
