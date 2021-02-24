@@ -68,6 +68,7 @@ def download_img(url):
 
 
 if __name__ == '__main__':
+    init()
     urls = get_img_urls()
     for url in urls:
         download_img(url)
