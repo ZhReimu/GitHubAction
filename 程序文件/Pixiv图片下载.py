@@ -58,8 +58,12 @@ def download_img(url):
     
     """
     filename = url[url.rindex('/')+1:]
+    RESULT_FILE_NAME = RESULT_DIR+filename
+    if os.exists(RESULT_FILE_NAME):
+      print('文件已存在，跳过下载！',filename)
+      return "Pass"
     print('开始下载',filename)
-    with open(RESULT_DIR+filename,'wb')as file:
+    with open(RESULT_FILE_NAME,'wb')as file:
         res = s.get(url)
         if res.status_code!=200:
             raise ValueError('下载图片出错，错误代码：'+str(res.status_code))
