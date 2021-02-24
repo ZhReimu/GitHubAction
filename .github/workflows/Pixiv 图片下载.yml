@@ -31,8 +31,8 @@ jobs:
             # run为要执行的命令
               run: pip install -r ./requirements.txt
             
-            - name: 设置交互式调试
-              uses: csexton/debugger-action@master
+            #- name: 设置交互式调试
+            #  uses: csexton/debugger-action@master
               
             - name: "开始运行指定文件"
               run: python3 程序文件/Pixiv图片下载.py
