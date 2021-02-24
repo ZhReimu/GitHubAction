@@ -14,6 +14,6 @@ jobs:
             # 不明觉厉
             - name: Checkout
               uses: actions/checkout@v2
-            - name: "安装依赖包"
+              
             - name: 设置交互式调试
               uses: csexton/debugger-action@master
