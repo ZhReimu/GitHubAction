@@ -72,6 +72,6 @@ if __name__ == '__main__':
     urls = get_img_urls()
     for url in urls:
         download_img(url)
-        break
+        
     print('程序结束！')
     
