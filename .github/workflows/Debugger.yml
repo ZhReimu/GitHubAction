@@ -1,0 +1,19 @@
+# Action 名
+name: 交互式调试
+# 触发方式
+on:
+    # 允许手动触发
+    workflow_dispatch:
+
+jobs:
+    build:
+        # 指定运行环境，最新版Ubuntu：ubuntu-latest
+        runs-on: ubuntu-18.04
+        # Action的执行步骤
+        steps:
+            # 不明觉厉
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: "安装依赖包"
+            - name: 设置交互式调试
+              uses: csexton/debugger-action@master
