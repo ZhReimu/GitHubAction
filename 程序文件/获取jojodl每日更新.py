@@ -4,7 +4,8 @@ import datetime
 import feedparser
 
 
-RESULT_DIR="执行结果"+os.sep # 执行结果保存到当前目录下的 执行结果/日期.txt 文档里
+RESULT_DIR="执行结果"+os.sep+"JOJODL"+os.sep 
+# 执行结果保存到当前目录下的 执行结果/JOJODL/日期.txt 文档里
 today=datetime.datetime.now().strftime("%Y-%m-%d")
 RESULT_FILE_NAME=RESULT_DIR+today+" JOJODL更新.txt"
 if not os.path.exists(RESULT_DIR):

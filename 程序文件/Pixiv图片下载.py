@@ -4,7 +4,8 @@ import requests
 import datetime
 
 
-RESULT_DIR="Pixiv"+os.sep # 执行结果保存到当前目录下的 执行结果/日期.txt 文档里
+RESULT_DIR="执行结果"+os.sep+"Pixiv"+os.sep 
+# 执行结果保存到当前目录下的 执行结果/Pixiv 里
 s = requests.session()
 s.headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
