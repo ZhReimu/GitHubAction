@@ -9,7 +9,7 @@ RESULT_DIR="执行结果"+os.sep+"Pixiv"+os.sep
 s = requests.session()
 s.headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
-    "Refer":'https://pixiv.net'
+    "Referer":'https://pixiv.net'
 }
 api = "https://pix.ipv4.host/ranks"
 
