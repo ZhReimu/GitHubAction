@@ -1,0 +1,33 @@
+  
+# Action 名
+name: 头歌签到
+# 触发方式
+on:
+    # 允许手动触发
+    workflow_dispatch:
+    # 提交代码时触发
+    # push:
+    # 定时任务触发
+    schedule:
+        # 默认是UTC时间，中国是 UTC+8 时间 
+        # 16：00 就是中国时间 00：00
+        - cron: "00 16 * * *"
+jobs:
+    build:
+        # 指定运行环境，最新版Ubuntu：ubuntu-latest
+        runs-on: ubuntu-20.04
+        # Action的执行步骤
+        steps:
+            # 将本仓库克隆到 Actions 运行环境
+            - name: Checkout
+              uses: actions/checkout@v2
+            # name为步骤名
+            - name: "设置 python3.8 环境"
+              uses: actions/setup-python@v1
+              with:
+                python-version: 3.8
+            - name: "安装依赖包"
+            # run为要执行的命令
+              run: pip install -r ./requirements.txt
+            - name: "开始运行指定文件"
+              run: python3 程序文件/头歌签到.py
