@@ -21,4 +21,4 @@ headers = {
 }
 
 response = requests.post('https://data.educoder.net/api/users/attendance.json', headers=headers, cookies=cookies)
-pront(response.json())
+print(response.json())
