@@ -1,17 +1,28 @@
 # GitHubAction
-##### GitHub Actions就是类似于腾讯云的**云函数**功能
-##### GitHub的设置比较繁琐，但能用就行嘛，白嫖的东西谁不喜欢呢？
-##### 二者各有优劣不予比较。
-##### ~~关于玩法，暂时只能想到自动签到了~~
-##### 值得注意的是：GitHub 设置了并发工作数，也就是说：
-##### 免费账户最多同时进行20个 WorkFlows ~~对我来说足够了就是~~
 
-## 启用步骤：
-### ~~1. 创建一个仓库~~
-### 2. 点击上方的**Actions**，按照提示新建一个**.yml**文件。
-#### 然后就会得到类似于下边这样的一个文件，大部分都做了注释
-#### 这是一个在Ubuntu 18.04 环境下运行Python 3.8 的yml文件例子
-#### 由于每次触发 Action 都是一个新的环境，因此需要每次重新安装Python库
+GitHub Actions 就是类似于腾讯云的云函数功能
+
+GitHub 的设置比较繁琐，但能用就行嘛，白嫖的东西谁不喜欢呢？
+
+二者各有优劣不予比较。
+
+~~关于玩法，暂时只能想到自动签到了~~
+
+值得注意的是：GitHub 设置了并发工作数，也就是说：
+
+免费账户最多同时进行 `20` 个 WorkFlows ~~对我来说足够了就是~~
+
+# 启用步骤
+## ~~1.  创建一个仓库~~
+
+## 2.  点击上方的**Actions**，按照提示新建一个**.yml**文件。
+
+然后就会得到类似于下边这样的一个文件，大部分都做了注释
+
+这是一个在 `Ubuntu 18.04` 环境下运行 `Python 3.8`  的 `yml` 文件例子
+
+由于每次触发 `Action` 都是一个新的环境，因此需要每次重新安装Python库
+
 ``` yml
 # Action 名
 name: 测试
@@ -57,23 +68,36 @@ jobs:
                 git commit -m '上传执行结果'
                 git push -u origin main
 ```
-### 3.设置Secrets
-#### 点击上方的**Settings**在左侧找到 Secrets
-#### 点击 Secrets 再点击右上角的 New repository secret 
-#### 输入 Secret 名和它的值就设置好了一个 Secret
-#### 需要注意的是，Secrets 正如其名是用来存放密钥之类的东西的变量
-#### 因此 即使你用print尝试将其打印出来也会显示 ```***``` 但它确实有值的，可以在程序里使用的值
-### 4. 使用Secrets
-#### 经过了下边的操作，Secrets已经被设置进了Actions的环境变量
-#### 因此想要调用Secrets的内容就需要设法取出环境变量中的Secrets
-#### Python的实现方法如下
+## 3. 设置  Secrets
+
+点击上方的 `Settings` 在左侧找到 `Secrets`
+
+点击 `Secrets` 再点击右上角的 `New repository secret` 
+
+输入 `Secret` 名和它的值就设置好了一个 `Secret`
+
+需要注意的是，`Secrets` 正如其名是用来存放密钥之类的东西的变量
+
+因此 即使你用 `print` 尝试将其打印出来也会显示 ```***``` 但它确实有值的，可以在程序里使用的值
+
+## 4. 使用 Secrets
+
+经过了下边的操作，`Secrets` 已经被设置进了 `Actions` 的环境变量
+
+因此想要调用 `Secrets` 的内容就需要设法取出环境变量中的Secrets
+
+`Python` 的实现方法如下
+
 ``` Python3
 import os
 PARAM = os.environ['MY_PARAM']
 ```
-### 5.保存执行结果到本仓库，本质上是曲线救国辣，将结果文件通过git上传到本仓库
-### 咱也是抄的别人的，不明觉厉。
-### cd到指定目录中去然后 git add. 表示上传该目录中所有文件，这样这部分就可以通用了，不管程序保存的文件名是什么。
+## 5.  保存执行结果到本仓库，本质上是曲线救国辣，将结果文件通过 git 上传到本仓库
+
+咱也是抄的别人的，不明觉厉。
+
+`cd` 到指定目录中去然后 `git add.` 表示上传该目录中所有文件，这样这部分就可以通用了，不管程序保存的文件名是什么。
+
 ```yml
             - name: "上传执行结果"
               run: |
@@ -84,10 +108,14 @@ PARAM = os.environ['MY_PARAM']
                 git commit -m '上传执行结果'
                 git push -u origin main
 ```
-### 6.使用WebHook手动触发
-### 需要先创建一个带有 ```repo``` 权限的 [Personal access token](https://github.com/settings/tokens)
-### 然后将触发方式设置为 ```repository_dispatch```
-### 类似于下边的
+## 6.使用 WebHook 手动触发
+
+需要先创建一个带有 ```repo``` 权限的 [Personal access token](https://github.com/settings/tokens)
+
+然后将触发方式设置为 ```repository_dispatch```
+
+类似于下边的
+
 ```yml
 # Action 名
 name: WebHook
@@ -102,7 +130,8 @@ jobs:
         echo Hello World!
 ```
 
-### 最后向 ```api.github.com```以一种神奇的方式post一下就可以了，Python代码如下：
+## 最后向  ```api.github.com``` 以一种神奇的方式 post 一下就可以了，Python 代码如下：
+
 ```python
 import requests
 
@@ -120,4 +149,4 @@ data = '{"event_type": '+f'"cmd_name"}'
 url=f'https://api.github.com/repos/{user_name}/{repo_name}/dispatches'
 requests.post(url=url, headers=headers, data=data)
 ```
-## 以上内容搜集于网络，如有雷同，纯属巧合。
+# 以上内容搜集于网络，如有雷同，纯属巧合。
